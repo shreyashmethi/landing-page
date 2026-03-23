@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 
     // Send confirmation email
     const { error: emailError } = await resend.emails.send({
-      from: 'samā4 <waitlist@sama4.online>',
+      from: 'samā4 <sama4.info@gmail.com>',
       to: email,
       subject: "You're on the samā4 waitlist",
       html: `
