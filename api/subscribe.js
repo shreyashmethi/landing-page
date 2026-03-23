@@ -1,7 +1,5 @@
 const { Resend } = require('resend');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -15,21 +13,32 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body;
+  const { email } = req.body || {};
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 
+  if (!process.env.RESEND_API_KEY) {
+    return res.status(500).json({ error: 'RESEND_API_KEY is not set' });
+  }
+
   try {
-    await resend.contacts.create({
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const { data, error } = await resend.contacts.create({
       email,
       unsubscribed: false,
     });
 
+    if (error) {
+      console.error('Resend API error:', error);
+      return res.status(500).json({ error: error.message || 'Failed to subscribe' });
+    }
+
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Resend error:', err);
-    return res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
+    console.error('Unexpected error:', err);
+    return res.status(500).json({ error: err.message || 'Failed to subscribe. Please try again.' });
   }
 };
