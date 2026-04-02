@@ -1,31 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>samā4 — Contextual News Intelligence</title>
+  <title>samā4</title>
+  <meta name="description" content="Stay informed. Stay relevant. With Samā4." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    // Prevent flash: apply theme before paint
+    (function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.remove('dark');else document.documentElement.classList.add('dark')})();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #080808;
-      --bg-2: #111111;
-      --border: rgba(255,255,255,0.08);
-      --text: #f0f0f0;
-      --text-muted: rgba(240,240,240,0.45);
-      --accent: #e8d5a3;
-      --accent-dim: rgba(232,213,163,0.15);
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Inter', sans-serif;
+      --bg: #FAFAF8;
+      --bg-2: #FFFFFF;
+      --bg-secondary: #F2F0EC;
+      --bg-dark: #0A0A0A;
+      --bg-dark-2: #141414;
+      --border: #E0E0E0;
+      --border-light: #F0F0F0;
+      --border-strong: rgba(0,0,0,0.15);
+      --text: #0A0A0A;
+      --text-secondary: #4A4A4A;
+      --text-muted: #8A8A8A;
+      --text-light: #FAFAF8;
+      --text-light-muted: #A0A0A0;
+      --accent: #f97316;
+      --accent-hover: #ea580c;
+      --highlight-bg: rgba(249,115,22,0.1);
+      --highlight-border: rgba(249,115,22,0.5);
+      --serif: 'Playfair Display', Georgia, serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --sans: 'Inter', system-ui, sans-serif;
+      --radius: 2px;
+    }
+
+    html.dark {
+      --bg: #0A0A0A;
+      --bg-2: #1A1A1A;
+      --bg-secondary: #141414;
+      --border: #222222;
+      --border-light: #1A1A1A;
+      --border-strong: rgba(255,255,255,0.12);
+      --text: #FAFAF8;
+      --text-secondary: #A0A0A0;
+      --text-muted: #666666;
+      --accent-hover: #fb923c;
+      --highlight-bg: rgba(249,115,22,0.15);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(128,128,128,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(128,128,128,0.06) 1px, transparent 1px);
+      background-size: 64px 64px;
+      transition: background-color 0.2s ease, color 0.2s ease;
       color: var(--text);
       font-family: var(--sans);
       font-size: 16px;
@@ -34,7 +70,7 @@
       overflow-x: hidden;
     }
 
-    /* NAV */
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -42,21 +78,64 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 48px;
-      background: rgba(8,8,8,0.85);
-      backdrop-filter: blur(12px);
+      padding: 16px 48px;
+      background: rgba(250,250,248,0.88);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
+      transition: background 0.2s ease;
+    }
+    html.dark nav { background: rgba(10,10,10,0.88); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1;
+      transition: border-color 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-toggle:hover { border-color: var(--text); color: var(--text); }
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+    html.dark .theme-toggle .icon-sun { display: block; }
+    html.dark .theme-toggle .icon-moon { display: none; }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .nav-logo {
-      font-family: var(--mono);
-      font-size: 17px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
       color: var(--text);
       text-decoration: none;
+      letter-spacing: -0.02em;
     }
-    .nav-logo span { color: var(--accent); }
+
+    .nav-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border-strong);
+      padding-left: 12px;
+    }
 
     .nav-links {
       display: flex;
@@ -69,236 +148,481 @@
       font-weight: 400;
       color: var(--text-muted);
       text-decoration: none;
-      letter-spacing: 0.01em;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
 
-    .btn-waitlist {
-      font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--bg);
+    .btn-primary {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
       background: var(--accent);
       border: none;
-      padding: 9px 20px;
+      padding: 10px 24px;
       border-radius: 4px;
       cursor: pointer;
       text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .btn-waitlist:hover { opacity: 0.85; }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-secondary {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      padding: 10px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-secondary:hover { border-color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 160px 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      min-height: 100vh;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(232,213,163,0.06) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
-      pointer-events: none;
+    .hero-content {
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.2s;
     }
 
     .hero-label {
       font-family: var(--mono);
       font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.2s;
-    }
-
-    .hero-title {
-      font-size: clamp(40px, 6.5vw, 88px);
-      font-weight: 300;
-      letter-spacing: -0.035em;
-      line-height: 1.05;
-      max-width: 800px;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.35s;
-    }
-    .hero-title em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      font-size: clamp(15px, 1.8vw, 18px);
-      font-weight: 300;
-      color: var(--text-muted);
-      max-width: 480px;
-      line-height: 1.7;
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.5s;
-    }
-
-    .form-wrap {
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.65s;
-    }
-
-    .waitlist-form {
-      display: flex;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
-      background: var(--bg-2);
-      transition: border-color 0.2s;
-    }
-    .waitlist-form:focus-within {
-      border-color: rgba(232,213,163,0.35);
-    }
-
-    .waitlist-form input[type="email"] {
-      flex: 1;
-      min-width: 260px;
-      background: transparent;
-      border: none;
-      outline: none;
-      padding: 14px 20px;
-      font-family: var(--sans);
-      font-size: 14px;
-      color: var(--text);
-    }
-    .waitlist-form input::placeholder { color: var(--text-muted); }
-
-    .waitlist-form button {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--accent);
-      border: none;
-      padding: 14px 24px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity 0.2s;
-    }
-    .waitlist-form button:hover { opacity: 0.85; }
-
-    .form-note {
-      margin-top: 12px;
-      font-size: 12px;
-      color: var(--text-muted);
-      font-family: var(--mono);
-    }
-
-    .form-success {
-      display: none;
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--accent);
-      letter-spacing: 0.04em;
-      padding: 14px 0;
-    }
-
-    /* DEMO STRIP */
-    .demo-strip {
-      padding: 0 24px 120px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .demo-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 32px 36px;
-      max-width: 620px;
-      width: 100%;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.9s;
-    }
-
-    .demo-card-label {
-      font-family: var(--mono);
-      font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
-    .demo-text {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.9;
-      color: rgba(240,240,240,0.75);
-    }
-
-    .demo-highlight {
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      margin-bottom: 24px;
       color: var(--text);
-      background: var(--accent-dim);
-      border-bottom: 1px solid rgba(232,213,163,0.5);
-      padding: 1px 2px;
-      border-radius: 2px;
-      cursor: default;
+    }
+    .hero-title .accent { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── DEMO MOCK ── */
+    .hero-demo {
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    .demo-window {
+      background: var(--bg-2);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    .demo-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .demo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .demo-dot.red { background: #ff5f57; }
+    .demo-dot.yellow { background: #febc2e; }
+    .demo-dot.green { background: #28c840; }
+    .demo-titlebar-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+    .demo-titlebar-url {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 12px;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .demo-titlebar-url .lock { font-size: 9px; }
+
+    .demo-body {
+      padding: 28px 28px 20px;
       position: relative;
     }
 
-    .tooltip {
-      display: none;
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 260px;
-      background: #1a1a1a;
-      border: 1px solid rgba(232,213,163,0.25);
-      border-radius: 6px;
-      padding: 12px 14px;
+    .demo-source {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .demo-source-icon {
+      width: 20px; height: 20px;
+      background: var(--accent);
+      color: var(--text-light);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
       font-size: 12px;
-      font-family: var(--sans);
-      color: var(--text-muted);
-      line-height: 1.6;
-      z-index: 10;
-      pointer-events: none;
-      white-space: normal;
+      font-weight: 700;
     }
-    .tooltip strong {
-      display: block;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      margin-bottom: 5px;
+    .demo-source-name {
+      font-size: 12px;
       font-weight: 500;
+      color: var(--text-muted);
     }
-    .tooltip::after {
+    .demo-source-date {
+      font-size: 11px;
+      color: rgba(10,10,10,0.3);
+      margin-left: auto;
+      font-family: var(--mono);
+    }
+
+    .demo-headline {
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .demo-article {
+      font-size: 14px;
+      line-height: 1.85;
+      color: rgba(10,10,10,0.7);
+      position: relative;
+    }
+
+    .demo-term {
+      position: relative;
+      cursor: default;
+      transition: all 0.3s ease;
+    }
+    .demo-term.highlighted {
+      background: var(--highlight-bg);
+      border-bottom: 2px solid var(--highlight-border);
+      padding: 1px 3px;
+      border-radius: 2px;
+      color: var(--text);
+    }
+
+    /* Context card (popup) */
+    .context-card {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      width: 280px;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 12px;
+      line-height: 1.65;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    }
+    .context-card.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .context-card::after {
       content: '';
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: rgba(232,213,163,0.25);
+      border: 7px solid transparent;
+      border-top-color: var(--bg-dark);
     }
-    .demo-highlight:hover .tooltip { display: block; }
+    .context-card-type {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .context-card-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+    .context-card-body {
+      color: var(--text-light-muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
 
-    /* HOW IT WORKS */
+    /* Sidebar panel in demo */
+    .demo-sidebar {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 220px;
+      border-left: 1px solid var(--border);
+      background: var(--bg);
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .demo-sidebar.visible { opacity: 1; }
+    .demo-sidebar-header {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .demo-sidebar-header .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #28c840;
+    }
+    .sidebar-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-item:last-child { border-bottom: none; }
+    .sidebar-item-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(10,10,10,0.3);
+      margin-bottom: 4px;
+    }
+    .sidebar-item-value {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .demo-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .demo-status .spinner {
+      width: 12px; height: 12px;
+      border: 2px solid var(--border);
+      border-top-color: var(--text);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .demo-status.done .spinner {
+      border-color: #28c840;
+      border-top-color: #28c840;
+      animation: none;
+    }
+    .demo-status.done .check { display: inline; }
+    .demo-status .check { display: none; color: #28c840; }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      padding: 0 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .trust-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .trust-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.25);
+    }
+    .trust-logos {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .trust-logo {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(10,10,10,0.2);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── VALUE SECTION (dark) ── */
+    .value-section {
+      background: #0A0A0A;
+      color: #FAFAF8;
+      padding: 120px 48px;
+      border-top: 1px solid var(--border);
+    }
+    html.dark .value-section {
+      background: #141414;
+    }
+    .value-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .value-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .value-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .value-title .strike {
+      text-decoration: line-through;
+      color: rgba(245,245,243,0.25);
+    }
+    .value-title .highlight {
+      color: var(--accent);
+    }
+    .value-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-light-muted);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 24px;
+    }
+    .value-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .value-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-light-muted);
+      border: 1px solid rgba(245,245,243,0.1);
+      padding: 6px 14px;
+      border-radius: 4px;
+    }
+
+    .value-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(245,245,243,0.08);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .value-card {
+      background: var(--bg-dark-2);
+      padding: 28px 24px;
+      transition: background 0.2s;
+    }
+    .value-card:hover { background: rgba(255,255,255,0.03); }
+    .value-card-icon {
+      font-size: 20px;
+      margin-bottom: 14px;
+      opacity: 0.6;
+    }
+    .value-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+    .value-card-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-light-muted);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
     .how {
-      padding: 100px 24px;
+      padding: 120px 48px;
       border-top: 1px solid var(--border);
     }
     .how-inner {
@@ -308,78 +632,78 @@
     .section-label {
       font-family: var(--mono);
       font-size: 11px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 48px;
+      color: var(--text-muted);
+      margin-bottom: 56px;
     }
     .steps {
       counter-reset: steps;
     }
     .step {
       display: grid;
-      grid-template-columns: 64px 1fr;
+      grid-template-columns: 72px 1fr;
       gap: 24px;
-      padding: 40px 0;
+      padding: 44px 0;
       border-bottom: 1px solid var(--border);
       counter-increment: steps;
     }
     .step:last-child { border-bottom: none; }
     .step-num {
       font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      padding-top: 4px;
+      font-size: 28px;
+      font-weight: 400;
+      color: rgba(10,10,10,0.12);
+      padding-top: 2px;
     }
     .step-num::before { content: "0" counter(steps); }
     .step-body h3 {
-      font-size: 16px;
-      font-weight: 500;
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 600;
       letter-spacing: -0.01em;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .step-body p {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 300;
       color: var(--text-muted);
       line-height: 1.75;
       max-width: 520px;
     }
 
-    /* FEATURES */
+    /* ── FEATURES ── */
     .features {
-      padding: 100px 24px;
+      padding: 120px 48px;
       border-top: 1px solid var(--border);
     }
     .features-inner {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--border-strong);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
       overflow: hidden;
     }
     .feature-item {
-      background: var(--bg);
-      padding: 36px 32px;
+      background: var(--bg-2);
+      padding: 36px 28px;
       transition: background 0.2s;
     }
-    .feature-item:hover { background: var(--bg-2); }
+    .feature-item:hover { background: var(--bg); }
     .feature-icon {
-      font-family: var(--mono);
-      font-size: 18px;
-      color: var(--accent);
+      font-size: 22px;
       margin-bottom: 16px;
-      opacity: 0.8;
+      opacity: 0.45;
     }
     .feature-title {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: -0.01em;
       margin-bottom: 10px;
     }
@@ -390,36 +714,84 @@
       line-height: 1.7;
     }
 
-    /* CTA */
+    /* ── CTA ── */
     .cta-section {
-      padding: 120px 24px;
+      padding: 120px 48px;
       text-align: center;
       border-top: 1px solid var(--border);
+      background: var(--bg);
       position: relative;
-      overflow: hidden;
-    }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(232,213,163,0.05) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
     }
     .cta-title {
-      font-size: clamp(28px, 4vw, 52px);
-      font-weight: 300;
-      letter-spacing: -0.03em;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
       margin-bottom: 16px;
     }
     .cta-sub {
-      font-size: 15px;
+      font-size: 16px;
       color: var(--text-muted);
       margin-bottom: 44px;
+      font-weight: 300;
     }
 
-    /* FOOTER */
+    .waitlist-form {
+      display: inline-flex;
+      gap: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-2);
+      transition: border-color 0.2s;
+      max-width: 480px;
+      width: 100%;
+    }
+    .waitlist-form:focus-within {
+      border-color: var(--text);
+    }
+    .waitlist-form input[type="email"] {
+      flex: 1;
+      min-width: 220px;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 14px 20px;
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text);
+    }
+    .waitlist-form input::placeholder { color: rgba(10,10,10,0.3); }
+    .waitlist-form button {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      padding: 14px 24px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .waitlist-form button:hover { background: var(--accent-hover); }
+    .form-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+    .form-success {
+      display: none;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      padding: 14px 0;
+    }
+
+    /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 48px;
@@ -428,11 +800,10 @@
       justify-content: space-between;
     }
     .footer-logo {
-      font-family: var(--mono);
-      font-size: 14px;
+      font-family: var(--serif);
+      font-size: 18px;
       color: var(--text-muted);
     }
-    .footer-logo span { color: var(--accent); }
     .footer-links {
       display: flex;
       gap: 24px;
@@ -447,181 +818,360 @@
     .footer-links a:hover { color: var(--text); }
     .footer-copy {
       font-size: 12px;
-      color: rgba(240,240,240,0.2);
+      color: rgba(10,10,10,0.2);
       font-family: var(--mono);
     }
 
-    /* ANIMATIONS */
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    @keyframes highlightIn {
+      from { background: transparent; border-color: transparent; }
+      to { background: var(--highlight-bg); border-bottom-color: var(--highlight-border); }
+    }
 
-    /* RESPONSIVE */
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── DARK MODE OVERRIDES ── */
+    html.dark .demo-window {
+      background: #141414;
+      border-color: #222;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+    }
+    html.dark .demo-titlebar { background: #0A0A0A; }
+    html.dark .demo-titlebar-url { background: #0A0A0A; border-color: #222; }
+    html.dark .demo-body { background: #141414; }
+    html.dark .demo-article { color: rgba(250,250,248,0.7); }
+    html.dark .demo-source-name { color: #A0A0A0; }
+    html.dark .demo-source-date { color: rgba(250,250,248,0.3); }
+    html.dark .demo-source-icon { background: var(--accent); color: #fff; }
+    html.dark .demo-headline { color: #FAFAF8; }
+    html.dark .demo-sidebar { background: #0A0A0A; border-color: #222; }
+    html.dark .demo-sidebar-header { color: #666; }
+    html.dark .sidebar-item { border-color: #222; }
+    html.dark .sidebar-item-label { color: rgba(250,250,248,0.25); }
+    html.dark .sidebar-item-value { color: #FAFAF8; }
+    html.dark .demo-status { color: #666; border-color: #222; }
+    html.dark .demo-titlebar-text { color: #666; }
+    html.dark .step-num { color: rgba(250,250,248,0.12); }
+    html.dark .feature-item { background: var(--bg-2); }
+    html.dark .feature-item:hover { background: var(--bg-secondary); }
+    html.dark .features-grid { background: #222; border-color: #222; }
+    html.dark .waitlist-form { background: var(--bg-2); border-color: var(--border); }
+    html.dark .waitlist-form input[type="email"] { color: #FAFAF8; }
+    html.dark .waitlist-form input::placeholder { color: #666; }
+    html.dark .trust-label { color: rgba(250,250,248,0.2); }
+    html.dark .trust-logo { color: rgba(250,250,248,0.15); }
+    html.dark .value-card { background: #0A0A0A; }
+    html.dark .value-card:hover { background: rgba(255,255,255,0.03); }
+    html.dark .footer-copy { color: rgba(250,250,248,0.2); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 140px 24px 60px;
+        min-height: auto;
+      }
+      .value-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     @media (max-width: 640px) {
-      nav { padding: 16px 20px; }
+      nav { padding: 14px 20px; }
       .nav-links { display: none; }
+      .nav-tag { display: none; }
+      .hero { padding: 120px 20px 40px; }
+      .hero-actions { flex-direction: column; }
       .waitlist-form { flex-direction: column; }
       .waitlist-form input[type="email"] { min-width: unset; }
+      .value-section { padding: 80px 20px; }
+      .value-cards { grid-template-columns: 1fr; }
+      .how, .features, .cta-section { padding: 80px 20px; }
       footer { flex-direction: column; gap: 16px; text-align: center; }
       .footer-links { justify-content: center; }
       .step { grid-template-columns: 1fr; gap: 8px; }
+      .demo-sidebar { display: none; }
+      .demo-body { padding: 20px; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
-  <a href="/" class="nav-logo">sam<span>ā</span>4</a>
+  <div class="nav-left">
+    <a href="/" class="nav-logo">Samā4</a>
+    <span class="nav-tag">Read News Smarter</span>
+  </div>
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#features">Features</a></li>
   </ul>
-  <a href="#waitlist" class="btn-waitlist">Join Waitlist</a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="icon-sun">☀</span>
+      <span class="icon-moon">☽</span>
+    </button>
+    <a href="#waitlist" class="btn-primary">Join Waitlist →</a>
+  </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section class="hero">
-  <p class="hero-label">Contextual News Intelligence</p>
-  <h1 class="hero-title">Read the news.<br /><em>Actually understand it.</em></h1>
-  <p class="hero-sub">
-    samā4 gives you instant AI-powered context on every unfamiliar term, person, or event — right as you read.
-  </p>
+  <div class="hero-content">
+    <p class="hero-label">Stay informed. Stay relevant. With Samā4.</p>
+    <h1 class="hero-title">Your first <span class="accent">AI</span> news app.</h1>
+    <p class="hero-sub">
+      Samā4 closes the knowledge gap, it detects what context a news
+      assumes, surfaces it, and gets you from confused to informed in seconds.
+    </p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Get Early Access →</a>
+      <a href="#how" class="btn-secondary">See How It Works</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">Ask Anything</span>
+      <span class="badge">Track Any Story</span>
+      <span class="badge">Connect the Dots</Data></span>
 
-  <div class="form-wrap" id="waitlist">
-    <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-      <input type="email" placeholder="your@email.com" required autocomplete="email" />
-      <button type="submit">Get Early Access</button>
-    </form>
-    <p class="form-note">No spam. Early access only.</p>
-    <p class="form-success" id="formSuccess">✓ You're on the list. We'll be in touch.</p>
+    </div>
+  </div>
+
+  <!-- ── INTERACTIVE DEMO ── -->
+  <div class="hero-demo">
+    <div class="demo-window">
+      <div class="demo-titlebar">
+        <span class="demo-dot red"></span>
+        <span class="demo-dot yellow"></span>
+        <span class="demo-dot green"></span>
+        <span class="demo-titlebar-url">
+          <span class="lock">🔒</span> reuters.com/markets/fed-rate…
+        </span>
+      </div>
+
+      <div class="demo-body">
+        <div class="demo-source">
+          <span class="demo-source-icon">R</span>
+          <span class="demo-source-name">Reuters</span>
+          <span class="demo-source-date">Apr 2, 2026</span>
+        </div>
+
+        <h3 class="demo-headline">Fed Holds Rates Steady Amid Renewed Stagflation Fears</h3>
+
+        <p class="demo-article" id="demoArticle">
+          The <span class="demo-term" data-type="Institution" data-title="Federal Reserve" data-desc="The central banking system of the United States, founded in 1913. Sets monetary policy and the federal funds rate, which influences borrowing costs globally.">Federal Reserve</span> held its benchmark interest rate unchanged at 4.25–4.50% on Wednesday, as Chair <span class="demo-term" data-type="Person" data-title="Jerome Powell" data-desc="Chair of the Federal Reserve since 2018. Appointed by President Trump, reappointed by President Biden. Leads the FOMC, which sets U.S. monetary policy.">Jerome Powell</span> signaled the committee would remain data-dependent amid growing concerns about <span class="demo-term" data-type="Economic Term" data-title="Stagflation" data-desc="A rare economic condition combining stagnant growth, high unemployment, and persistent inflation simultaneously. First seen during the 1970s oil crisis.">stagflation</span>. The decision came after the latest <span class="demo-term" data-type="Indicator" data-title="CPI (Consumer Price Index)" data-desc="A measure of the average change in prices paid by urban consumers for a basket of goods and services. The most widely followed inflation indicator in the U.S.">CPI report</span> showed prices rising 3.8% year-over-year, well above the Fed's <span class="demo-term" data-type="Policy" data-title="2% Inflation Target" data-desc="The Federal Reserve's stated goal for annual inflation. Adopted formally in 2012, it serves as the benchmark for monetary policy decisions.">2% target</span>.
+        </p>
+
+        <!-- sidebar panel -->
+        <div class="demo-sidebar" id="demoSidebar">
+          <div class="demo-sidebar-header">
+            <span class="dot"></span> Samā4 active
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">Terms found</div>
+            <div class="sidebar-item-value" id="termsCount">—</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">Context level</div>
+            <div class="sidebar-item-value">Full</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">Sources</div>
+            <div class="sidebar-item-value">Reuters, Fed.gov</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-status" id="demoStatus">
+        <span class="spinner"></span>
+        <span class="check">✓</span>
+        <span id="statusText">Scanning article…</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- DEMO -->
-<div class="demo-strip">
-  <div class="demo-card">
-    <p class="demo-card-label">// hover a term to see context</p>
-    <p class="demo-text">
-      The
-      <span class="demo-highlight">Federal Reserve
-        <span class="tooltip">
-          <strong>Federal Reserve</strong>
-          The central banking system of the United States, founded in 1913. It controls monetary policy and sets the benchmark interest rate.
-        </span>
-      </span>
-      raised its benchmark rate by 25 basis points amid ongoing concerns about
-      <span class="demo-highlight">stagflation
-        <span class="tooltip">
-          <strong>Stagflation</strong>
-          A rare economic condition combining stagnant growth, high unemployment, and high inflation simultaneously — first seen in the 1970s.
-        </span>
-      </span>,
-      as
-      <span class="demo-highlight">Powell
-        <span class="tooltip">
-          <strong>Jerome Powell</strong>
-          Chair of the Federal Reserve since 2018. Appointed by President Trump, reappointed by President Biden. Leads the Federal Open Market Committee.
-        </span>
-      </span>
-      signaled the committee would remain data-dependent.
-    </p>
+<!-- ── VALUE SECTION (dark) ── -->
+<section class="value-section reveal">
+  <div class="value-inner">
+    <div>
+      <p class="value-label">Capabilities</p>
+      <h2 class="value-title">Intelligence that reads the <span class="strike">noise</span> <span class="highlight">signal</span> so you don't.</h2>
+      <p class="value-sub">
+        Samā4 gives you a personal AI news analyst that aggregates, deduplicates, and connects, delivering briefings, not clutter.
+      </p>
+      <div class="value-tags">
+        <span class="value-tag">Researchers</span>
+        <span class="value-tag">Analysts</span>
+        <span class="value-tag">Founders</span>
+        <span class="value-tag">Journalists</span>
+        <span class="value-tag">Curious Minds</span>
+      </div>
+    </div>
+    <div class="value-cards">
+      <div class="value-card">
+        <div class="value-card-icon">◉</div>
+        <h3 class="value-card-title">Multi-Source Aggregation</h3>
+        <p class="value-card-desc">Pulls from 12+ news sources with MinHash deduplication. No repeated stories, no missed angles.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-card-icon">◎</div>
+        <h3 class="value-card-title">Entity-Linked Knowledge Graph</h3>
+        <p class="value-card-desc">spaCy NER + Wikidata entity linking connects people, orgs, and events across stories into a living knowledge graph.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-card-icon">◈</div>
+        <h3 class="value-card-title">Samvad Voice Companion</h3>
+        <p class="value-card-desc">Voice-first AI briefings via Samvad. Bidirectional WebSocket streaming with sub-200ms latency.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-card-icon">⊕</div>
+        <h3 class="value-card-title">Real-Time RAG Pipeline</h3>
+        <p class="value-card-desc">Pinecone + Redis retrieval with Mistral reasoning. Context-aware answers grounded in the latest news.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
+<!-- ── HOW IT WORKS ── -->
+<section class="how reveal" id="how">
   <div class="how-inner">
-    <p class="section-label">// how it works</p>
+    <p class="section-label">How It Works</p>
     <div class="steps">
       <div class="step">
         <span class="step-num"></span>
         <div class="step-body">
-          <h3>Paste or open any news article</h3>
-          <p>Bring any article from any source. samā4 works with text from any publication, newsletter, or feed.</p>
+          <h3>Open any news article</h3>
+          <p>Samā4 works as a browser extension. Open any article from any source — Reuters, NYT, The Economist, Substack, or any site.</p>
         </div>
       </div>
       <div class="step">
         <span class="step-num"></span>
         <div class="step-body">
           <h3>AI identifies what you need to know</h3>
-          <p>Our model scans for unfamiliar terms, people, organizations, and historical events — and surfaces context automatically.</p>
+          <p>Our model scans the article and surfaces context on every unfamiliar term, person, organization, and event — automatically.</p>
         </div>
       </div>
       <div class="step">
         <span class="step-num"></span>
         <div class="step-body">
-          <h3>Read with full context, inline</h3>
-          <p>Hover or tap any highlighted term to get a concise, accurate explanation without leaving the article.</p>
+          <h3>Read with full understanding</h3>
+          <p>Hover any highlighted term for a concise explanation. No context-switching, no tab-hopping. Just informed reading.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features" id="features">
+<!-- ── FEATURES ── -->
+<section class="features reveal" id="features">
   <div class="features-inner">
-    <p class="section-label">// capabilities</p>
+    <p class="section-label">Capabilities</p>
     <div class="features-grid">
       <div class="feature-item">
         <div class="feature-icon">⌘</div>
-        <h3 class="feature-title">Inline Context</h3>
-        <p class="feature-desc">Explanations appear exactly where you need them — no new tabs, no searches, no disruption.</p>
+        <h3 class="feature-title">Browser Extension</h3>
+        <p class="feature-desc">Works natively in Chrome. One click to activate on any page you're reading.</p>
       </div>
       <div class="feature-item">
         <div class="feature-icon">◈</div>
-        <h3 class="feature-title">People & Organizations</h3>
-        <p class="feature-desc">Instant bios and background on politicians, executives, institutions, and public figures mentioned in the news.</p>
+        <h3 class="feature-title">Any Publication</h3>
+        <p class="feature-desc">Reuters, Bloomberg, NYT, Substack, newsletters — works across all major and independent sources.</p>
       </div>
       <div class="feature-item">
         <div class="feature-icon">◎</div>
-        <h3 class="feature-title">Historical Events</h3>
-        <p class="feature-desc">Understand references to past events, legislation, conflicts, and crises with brief, accurate summaries.</p>
+        <h3 class="feature-title">Always Current</h3>
+        <p class="feature-desc">Context grounded in up-to-date knowledge, not a static database frozen in time.</p>
       </div>
       <div class="feature-item">
         <div class="feature-icon">⊕</div>
-        <h3 class="feature-title">Jargon Decoder</h3>
-        <p class="feature-desc">Economic, legal, political, and scientific terminology explained in plain language — always in context.</p>
+        <h3 class="feature-title">Privacy-First</h3>
+        <p class="feature-desc">Your reading habits stay private. No tracking, no data selling, no surveillance.</p>
       </div>
       <div class="feature-item">
         <div class="feature-icon">◇</div>
-        <h3 class="feature-title">Any Publication</h3>
-        <p class="feature-desc">Works across all major news sources. Paste a URL or text from any outlet in the world.</p>
+        <h3 class="feature-title">Depth Control</h3>
+        <p class="feature-desc">Choose your context level — brief summaries for scanning, deep explanations for learning.</p>
       </div>
       <div class="feature-item">
         <div class="feature-icon">≋</div>
-        <h3 class="feature-title">Always Current</h3>
-        <p class="feature-desc">Context is grounded in up-to-date knowledge, not a static database frozen in time.</p>
+        <h3 class="feature-title">Multi-Language</h3>
+        <p class="feature-desc">Read news in any language and get context in the language you think in.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BOTTOM CTA -->
-<section class="cta-section">
-  <h2 class="cta-title">Stop getting lost<br />in the news.</h2>
-  <p class="cta-sub">Join the waitlist for early access to samā4.</p>
-  <form class="waitlist-form" id="waitlistForm2" onsubmit="handleSubmit2(event)" style="display:inline-flex; max-width:460px; width:100%;">
+<!-- ── BOTTOM CTA ── -->
+<section class="cta-section" id="waitlist">
+  <h2 class="cta-title">Get early access to Samā4.</h2>
+  <p class="cta-sub">The news layer that thinks, connects, and briefs.</p>
+  <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
     <input type="email" placeholder="your@email.com" required autocomplete="email" />
-    <button type="submit">Join Waitlist</button>
+    <button type="submit">Get Early Access</button>
   </form>
-  <p class="form-note" style="margin-top:12px;">No spam. Early access only.</p>
-  <p id="formSuccess2" style="display:none; font-family:var(--mono); font-size:13px; color:var(--accent); letter-spacing:0.04em; padding:14px 0;">✓ You're on the list. We'll be in touch.</p>
+  <p class="form-note">No spam. Early access only.</p>
+  <p class="form-success" id="formSuccess">✓ You're on the list. We'll be in touch.</p>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
-  <span class="footer-logo">sam<span>ā</span>4</span>
+  <span class="footer-logo">Samā4</span>
   <ul class="footer-links">
     <li><a href="https://sama4.online" target="_blank">sama4.online</a></li>
   </ul>
-  <span class="footer-copy">© 2026 samā4</span>
+  <span class="footer-copy">© 2026 Samā4</span>
 </footer>
 
 <script>
-  async function subscribe(email, formId, successId) {
+  // ── DARK MODE TOGGLE ──
+  (function() {
+    const html = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+
+    // Apply stored preference, default to dark
+    if (stored === 'light') {
+      html.classList.remove('dark');
+    } else {
+      html.classList.add('dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  })();
+
+  // ── WAITLIST SUBSCRIBE ──
+  async function subscribe(email, formEl, successEl) {
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
@@ -630,8 +1180,8 @@
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
-      document.getElementById(formId).style.display = 'none';
-      document.getElementById(successId).style.display = 'block';
+      formEl.style.display = 'none';
+      successEl.style.display = 'block';
     } catch (err) {
       alert(err.message);
     }
@@ -640,14 +1190,115 @@
   function handleSubmit(e) {
     e.preventDefault();
     const email = e.target.querySelector('input[type="email"]').value;
-    subscribe(email, 'waitlistForm', 'formSuccess');
+    subscribe(email, document.getElementById('waitlistForm'), document.getElementById('formSuccess'));
   }
 
-  function handleSubmit2(e) {
-    e.preventDefault();
-    const email = e.target.querySelector('input[type="email"]').value;
-    subscribe(email, 'waitlistForm2', 'formSuccess2');
-  }
+  // ── INTERACTIVE DEMO ANIMATION ──
+  (function() {
+    const terms = document.querySelectorAll('.demo-term');
+    const status = document.getElementById('demoStatus');
+    const statusText = document.getElementById('statusText');
+    const sidebar = document.getElementById('demoSidebar');
+    const termsCount = document.getElementById('termsCount');
+    let activeCard = null;
+    let hasPlayed = false;
+
+    function runDemo() {
+      if (hasPlayed) return;
+      hasPlayed = true;
+
+      // Phase 1: scanning animation
+      statusText.textContent = 'Scanning article…';
+      let highlighted = 0;
+
+      // Highlight terms one by one with delay
+      terms.forEach((term, i) => {
+        setTimeout(() => {
+          term.classList.add('highlighted');
+          term.style.animation = 'highlightIn 0.4s ease forwards';
+          highlighted++;
+          termsCount.textContent = highlighted + ' identified';
+
+          // Show context card briefly for the first 3 terms
+          if (i < 3) {
+            showContextCard(term);
+            setTimeout(() => hideContextCard(), 1800);
+          }
+
+          // After last term
+          if (i === terms.length - 1) {
+            setTimeout(() => {
+              statusText.textContent = terms.length + ' terms contextualized';
+              status.classList.add('done');
+              sidebar.classList.add('visible');
+            }, 600);
+          }
+        }, 1200 + i * 900);
+      });
+    }
+
+    function showContextCard(term) {
+      hideContextCard();
+      const card = document.createElement('div');
+      card.className = 'context-card';
+      card.innerHTML = `
+        <div class="context-card-type">${term.dataset.type}</div>
+        <div class="context-card-title">${term.dataset.title}</div>
+        <div class="context-card-body">${term.dataset.desc}</div>
+      `;
+      term.appendChild(card);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => card.classList.add('visible'));
+      });
+      activeCard = card;
+    }
+
+    function hideContextCard() {
+      if (activeCard) {
+        activeCard.classList.remove('visible');
+        setTimeout(() => activeCard && activeCard.remove(), 300);
+        activeCard = null;
+      }
+    }
+
+    // Hover to show context cards after demo plays
+    terms.forEach(term => {
+      term.addEventListener('mouseenter', () => {
+        if (term.classList.contains('highlighted')) {
+          showContextCard(term);
+        }
+      });
+      term.addEventListener('mouseleave', () => {
+        hideContextCard();
+      });
+    });
+
+    // Trigger demo when hero comes into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(runDemo, 800);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(document.querySelector('.hero-demo'));
+  })();
+
+  // ── SCROLL REVEAL ──
+  (function() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+  })();
 </script>
 
 </body>
